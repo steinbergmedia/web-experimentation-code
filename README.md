@@ -10,3 +10,10 @@ This repository contains modular code snippets and utilities that can be reused 
 
 - **Utils**: Helper functions and other utilities
 - **Templates**: Pre-built experiment templates
+
+## Third-party custom code
+
+See also the following third-party repositories:
+
+- [https://github.com/MarkBiesheuvel/optimizely-custom-code](https://github.com/MarkBiesheuvel/optimizely-custom-code)
+- [https://github.com/optimizely/library](https://github.com/optimizely/library)
