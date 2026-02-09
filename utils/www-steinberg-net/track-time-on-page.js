@@ -1,10 +1,11 @@
 /**
  * Time on page tracking utility for Optimizely analytics
- * Tracks user spent time on the page
+ * Tracks the time users spend on the page
  */
 
 const eventName = "time_on_page";
 const start = performance.now();
+const MIN_TIME_THRESHOLD_SECONDS = 2;
 let sent = false;
 
 /**
@@ -36,7 +37,7 @@ function send() {
   sent = true;
 
   const spent = Math.round((performance.now() - start) / 1000);
-  if (spent < 2) return;
+  if (spent < MIN_TIME_THRESHOLD_SECONDS) return;
 
   window.optimizely = window.optimizely || [];
   window.optimizely.push({
