@@ -1,7 +1,9 @@
 /**
- * Time on version overlay tracking utility for Optimizely analytics
- * Tracks the time users spend on the version overlay
+ * Time on shop-or-trial-overlay tracking utility for Optimizely analytics
+ * Tracks the time users spend on the shop-or-trial-overlay until they select a product
  */
+
+const eventName = "time_on_shop_or_trial_overlay";
 
 function sendOptimizelyEvent(eventName, value) {
   window.optimizely = window.optimizely || [];
@@ -12,7 +14,7 @@ function sendOptimizelyEvent(eventName, value) {
   });
 }
 
-function trackTimeOnVersionOverlay() {
+function trackTimeOnShopOrTrialOverlay() {
   const utils = optimizely.get("utils");
 
   let startTime = null;
@@ -30,7 +32,7 @@ function trackTimeOnVersionOverlay() {
     const elapsed = Date.now() - startTime;
     hasSelected = true;
     console.log("Time until selection (ms):", elapsed);
-    sendOptimizelyEvent("time_on_version_overlay", elapsed);
+    sendOptimizelyEvent(eventName, elapsed);
     cleanup();
   }
 
@@ -45,7 +47,7 @@ function trackTimeOnVersionOverlay() {
 
   const OVERLAY_SELECTOR =
     ".ReactModal__Overlay--after-open .shop-or-trial-content";
-  const BUTTON_SELECTOR = ".smtg-button";
+  const BUTTON_SELECTOR = "button.smtg-button";
 
   utils.waitForElement(OVERLAY_SELECTOR).then((overlay) => {
     onOverlayShown();
@@ -57,4 +59,4 @@ function trackTimeOnVersionOverlay() {
   });
 }
 
-trackTimeOnVersionOverlay();
+trackTimeOnShopOrTrialOverlay();
