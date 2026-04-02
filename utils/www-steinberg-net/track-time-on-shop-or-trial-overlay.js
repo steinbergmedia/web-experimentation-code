@@ -3,7 +3,12 @@
  * Tracks the time users spend on the shop-or-trial-overlay until they select a product
  */
 
+const utils = optimizely.get("utils");
+
 const eventName = "time_on_shop_or_trial_overlay";
+const OVERLAY_SELECTOR =
+  ".ReactModal__Overlay--after-open .shop-or-trial-content";
+const BUTTON_SELECTOR = "button.smtg-button";
 
 function sendOptimizelyEvent(eventName, value) {
   window.optimizely = window.optimizely || [];
@@ -15,13 +20,11 @@ function sendOptimizelyEvent(eventName, value) {
 }
 
 function trackTimeOnShopOrTrialOverlay() {
-  const utils = optimizely.get("utils");
-
   let startTime = null;
   let hasSelected = false;
+  let registeredButtons = [];
 
   function onOverlayShown() {
-    if (startTime) return;
     startTime = Date.now();
     hasSelected = false;
     console.log("Overlay shown");
@@ -36,18 +39,12 @@ function trackTimeOnShopOrTrialOverlay() {
     cleanup();
   }
 
-  let registeredButtons = [];
-
   function cleanup() {
     registeredButtons.forEach((btn) =>
       btn.removeEventListener("click", onButtonClick)
     );
     registeredButtons = [];
   }
-
-  const OVERLAY_SELECTOR =
-    ".ReactModal__Overlay--after-open .shop-or-trial-content";
-  const BUTTON_SELECTOR = "button.smtg-button";
 
   utils.waitForElement(OVERLAY_SELECTOR).then((overlay) => {
     onOverlayShown();
